@@ -1,0 +1,7 @@
+.env
+node_modules
+*.log
+backend.log
+desktop.ini
+*.pem
+*.key

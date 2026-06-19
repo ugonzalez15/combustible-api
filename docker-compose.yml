@@ -1,0 +1,27 @@
+services:
+  combustible-api:
+    build: .
+    container_name: combustible-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db-tunnel
+
+  # Tunel SSH persistente hacia el servidor puente que expone la BD legacy
+  # erptycqsa en 3306. La API se conecta a este servicio (DB_HOST=db-tunnel)
+  # en vez de la IP directa, porque 3306 no esta abierto hacia EasyPanel.
+  db-tunnel:
+    build: ./ssh-tunnel
+    container_name: combustible-db-tunnel
+    restart: unless-stopped
+    environment:
+      - SSH_HOST=100.27.20.188
+      - SSH_USER=vpaz
+      - REMOTE_HOST=127.0.0.1
+      - REMOTE_PORT=3306
+      - LOCAL_PORT=3306
+    volumes:
+      - ./ssh/vpaz.pem:/ssh_key:ro
