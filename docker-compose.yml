@@ -21,7 +21,7 @@ services:
       - SSH_HOST=100.27.20.188
       - SSH_USER=vpaz
       - REMOTE_HOST=localhost
-      - REMOTE_PORT=22
+      - REMOTE_PORT=3306
       - LOCAL_PORT=3306
     volumes:
       - ./ssh/vpaz.pem:/ssh_key:ro
