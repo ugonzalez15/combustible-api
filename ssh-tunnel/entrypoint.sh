@@ -2,7 +2,14 @@
 set -e
 
 mkdir -p /root/.ssh
-cp /ssh_key /root/.ssh/id_rsa
+if [ -n "$SSH_PRIVATE_KEY" ]; then
+  printf '%s\n' "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa
+elif [ -f /ssh_key ]; then
+  cp /ssh_key /root/.ssh/id_rsa
+else
+  echo "ERROR: No SSH key provided (SSH_PRIVATE_KEY or /ssh_key)" >&2
+  exit 1
+fi
 chmod 600 /root/.ssh/id_rsa
 
 ssh-keyscan -H "$SSH_HOST" >> /root/.ssh/known_hosts 2>/dev/null || true
