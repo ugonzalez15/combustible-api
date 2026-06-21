@@ -22,6 +22,9 @@ const app = new Elysia()
       headers: { 'Content-Type': 'application/json' },
     })
   })
-  .listen(config.port)
+  .listen({
+    hostname: '0.0.0.0',
+    port: config.port,
+  })
 
 logger.info({ port: config.port }, 'combustible-api iniciado')
