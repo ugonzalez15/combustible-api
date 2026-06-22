@@ -1,4 +1,4 @@
-import mariadb from 'mariadb'
+import mariadb, * as mariadbTypes from 'mariadb'
 import { config } from './config'
 
 const pool = mariadb.createPool({
@@ -26,7 +26,7 @@ export async function query<T = Record<string, unknown>>(
 export async function execute(
   sql: string,
   params?: unknown[],
-): Promise<mariadb.UpsertResult> {
+): Promise<mariadbTypes.UpsertResult> {
   const conn = await pool.getConnection()
   try {
     return await conn.query(sql, params)

@@ -9,6 +9,9 @@
         "mariadb": "latest",
         "pino": "latest",
       },
+      "devDependencies": {
+        "@types/node": "^26.0.0",
+      },
     },
   },
   "packages": {
