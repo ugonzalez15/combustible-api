@@ -469,11 +469,13 @@ export const publicRoutes = new Elysia()
           database: { ok: true, connected: true, responseTimeMs: Date.now() - start },
         },
       }
-    } catch {
+    } catch (error) {
+      logger.error({ err: error }, 'Database healthcheck failed')
       return {
         ok:      false,
         status:  'unhealthy',
         service: 'combustible-api',
+        error:   error instanceof Error ? error.message : String(error),
         checks: {
           api:      { ok: true, message: 'API responding' },
           database: { ok: false, connected: false },
