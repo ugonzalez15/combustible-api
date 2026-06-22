@@ -11,11 +11,15 @@ export async function query<T = Record<string, unknown>>(
   sql: string,
   params?: unknown[],
 ): Promise<T[]> {
-  const conn = await pool.getConnection()
+  let conn
   try {
+    conn = await pool.getConnection()
     return await conn.query(sql, params)
+  } catch (error) {
+    console.error('[db] query failed', error)
+    throw error
   } finally {
-    conn.release()
+    if (conn) conn.release()
   }
 }
 
